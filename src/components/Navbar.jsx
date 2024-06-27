@@ -21,7 +21,7 @@ const Navbar = () => {
     
     return (
         <nav className='h-16 px-5 md:px-12 flex justify-between items-center border-b-2'>
-            <Link>Trivia Game App</Link>
+            <Link to={'/'}>Trivia Game App</Link>
 
             <div className='flex items-center space-x-4'>
                 {isLoggedIn ? (
