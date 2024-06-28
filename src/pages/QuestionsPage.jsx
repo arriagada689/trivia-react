@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import formatTime from '../utils/formatTime';
+import { AuthContext } from '../contexts/AuthContext.jsx';
+import getCategory from '../utils/getCategory.js';
 
 const QuestionsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -10,6 +12,11 @@ const QuestionsPage = () => {
     const [correctCount, setCorrectCount] = useState(0)
     const [incorrectCount, setIncorrectCount] = useState(0)
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [questionArr, setQuestionArr] = useState([]);
+    const [userInputArr, setUserInputArr] = useState([]);
+    const [correctAnswerArr, setCorrectAnswerArr] = useState([]);
+
+    const { handleGameData } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -17,7 +24,7 @@ const QuestionsPage = () => {
         const category = Number(searchParams.get('category'))
         const difficulty = searchParams.get('difficulty')
         const amount = Number(searchParams.get('amount'))
-        console.log(category, difficulty, amount)
+        // console.log(category, difficulty, amount)
         const getQuestions = async () => {
             const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
             const response = await fetch(`${apiBaseUrl}/trivia/questions?category=${category}&difficulty=${difficulty}&amount=${amount}`, {
@@ -28,7 +35,7 @@ const QuestionsPage = () => {
             if(response.ok){
                 const data = await response.json()
                 setQuestions(data)
-                console.log(data)
+                // console.log(data)
 
                 //set timer
                 let timer = setInterval(() => {
@@ -48,7 +55,63 @@ const QuestionsPage = () => {
 
     }, [selectedAnswer])
 
+    {/*hits api and redirects when all state variables are updated correctly */}
+    useEffect(() => {
+        if(questions && index + 1 === questions.length && localStorage.getItem('userInfo') && correctCount + incorrectCount === questions.length && questionArr.length === questions.length && userInputArr.length === questions.length && correctAnswerArr.length === questions.length){
+            const handleLastClick = async () => {
+                //handle last question click (hit the api and get game id, redirect to results for that game)
+                const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+                const token = JSON.parse(localStorage.getItem('userInfo')).token
+                const response = await fetch(`${apiBaseUrl}/users/post_game`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        correct_count: correctCount,
+                        incorrect_count: incorrectCount,
+                        time_taken: elapsedTime,
+                        question_arr: questionArr,
+                        user_input_arr: userInputArr,
+                        correct_answer_arr: correctAnswerArr,
+                        category: Number(searchParams.get('category')) === 0 ? 'Any' : getCategory(Number(searchParams.get('category')))
+                    })
+                })
+                if(response.ok){
+                    const data = await response.json()
+                    // console.log(data)
+                    
+                    navigate(`/results/${data.id}`)
+                }
+            }
+            handleLastClick()
+        } else if(questions && index + 1 === questions.length && correctCount + incorrectCount === questions.length && questionArr.length === questions.length && userInputArr.length === questions.length && correctAnswerArr.length === questions.length){
+            //store game data to context
+            const obj = {}
+            obj['correct_count'] = correctCount
+            obj['incorrect_count'] = incorrectCount
+            obj['time_taken'] = elapsedTime
+            obj['question_arr'] = questionArr
+            obj['user_input_arr'] = userInputArr
+            obj['correct_answer_arr'] = correctAnswerArr
+
+            handleGameData(obj)
+            navigate('/results')
+        }
+    }, [index, correctCount, incorrectCount, questionArr, userInputArr, correctAnswerArr])
+
     const handleAnswerClick = async (answer) => {
+        
+        //build object to send to backend with current question, correct answer, user answer
+        const obj = {}
+        const updatedQuestionArr = [...questionArr, questions[index].question]
+        setQuestionArr(updatedQuestionArr)
+        const updatedUserInputArr = [...userInputArr, answer]
+        setUserInputArr(updatedUserInputArr)
+        const updatedCorrectAnswerArr = [...correctAnswerArr, questions[index].correct_answer]
+        setCorrectAnswerArr(updatedCorrectAnswerArr)
+        
         if(selectedAnswer === ''){
             setSelectedAnswer(answer)
             //keep track of correct and incorrect answers
@@ -64,31 +127,7 @@ const QuestionsPage = () => {
                 setSelectedAnswer('')
             }, 1500)
         }
-        if(index + 1 === questions.length && localStorage.getItem('userInfo')) {
-            //handle last question click (hit the api and get game id, redirect to results for that game)
-            const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
-            const token = JSON.parse(localStorage.getItem('userInfo')).token
-            const response = await fetch(`${apiBaseUrl}/users/post_game`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    correct_count: correctCount,
-                    incorrectCount: incorrectCount
-                })
-            })
-            if(response.ok){
-                const data = await response.json()
-                console.log(data)
-                if(localStorage.getItem('userInfo')){
-                    navigate('/')
-                }
-            }
-        } else if(index + 1 === questions.length){
-
-        }
+        
     }
 
     const buttonBg = (userAnswer) => {
