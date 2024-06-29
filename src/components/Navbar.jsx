@@ -24,6 +24,8 @@ const Navbar = () => {
             <Link to={'/'}>Trivia Game App</Link>
 
             <div className='flex items-center space-x-4'>
+                <Link to={'/leaderboard'}>Leaderboard</Link>
+
                 {isLoggedIn ? (
                     <>
                         <Link to={'/profile'}>Profile</Link>

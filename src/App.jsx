@@ -12,6 +12,10 @@ import RegisterPage from './pages/RegisterPage'
 import NotFoundPage from './pages/NotFoundPage'
 import QuestionsPage from './pages/QuestionsPage'
 import ResultsPage from './pages/ResultsPage'
+import Profile from './pages/Profile'
+import Leaderboard from './pages/Leaderboard'
+import UpdateProfile from './pages/UpdateProfile'
+import ConfirmDelete from './pages/ConfirmDelete'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,6 +25,10 @@ const router = createBrowserRouter(
       <Route path='/register' element={<RegisterPage />}/>
       <Route path='/questions' element={<QuestionsPage />}/>
       <Route path='/results/:id?' element={<ResultsPage />}/>
+      <Route path='/profile' element={<Profile />}/>
+      <Route path='/update_profile' element={<UpdateProfile />}/>
+      <Route path='/confirm_delete' element={<ConfirmDelete />}/>
+      <Route path='/leaderboard' element={<Leaderboard />}/>
       <Route path='*' element={<NotFoundPage />}/>
     </Route>
   )
