@@ -83,6 +83,7 @@ const Profile = () => {
                                     <div>Score: {game.correct_count}/{game.question_arr.length}</div>
                                     <div>Category: {game.category}</div>
                                     <div>Time Taken: {game.time_taken}</div>
+                                    <div>Gamemode: {game.gamemode}</div>
                                     <div>{formatDate(game.created_at)}</div>
                                 </Link>
                             )

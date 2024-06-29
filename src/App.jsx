@@ -16,6 +16,8 @@ import Profile from './pages/Profile'
 import Leaderboard from './pages/Leaderboard'
 import UpdateProfile from './pages/UpdateProfile'
 import ConfirmDelete from './pages/ConfirmDelete'
+import RequireAuth from './components/RequireAuth'
+import TimedQuestionsPage from './pages/TimedQuestionsPage'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -24,10 +26,11 @@ const router = createBrowserRouter(
       <Route path='/login' element={<LoginPage />}/>
       <Route path='/register' element={<RegisterPage />}/>
       <Route path='/questions' element={<QuestionsPage />}/>
+      <Route path='/timed_questions' element={<TimedQuestionsPage />}/>
       <Route path='/results/:id?' element={<ResultsPage />}/>
-      <Route path='/profile' element={<Profile />}/>
-      <Route path='/update_profile' element={<UpdateProfile />}/>
-      <Route path='/confirm_delete' element={<ConfirmDelete />}/>
+      <Route path='/profile' element={<RequireAuth> <Profile /> </RequireAuth>}/>
+      <Route path='/update_profile' element={<RequireAuth><UpdateProfile /></RequireAuth>}/>
+      <Route path='/confirm_delete' element={<RequireAuth><ConfirmDelete /></RequireAuth>}/>
       <Route path='/leaderboard' element={<Leaderboard />}/>
       <Route path='*' element={<NotFoundPage />}/>
     </Route>

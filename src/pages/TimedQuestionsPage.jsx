@@ -4,7 +4,7 @@ import formatTime from '../utils/formatTime';
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import getCategory from '../utils/getCategory.js';
 
-const QuestionsPage = () => {
+const TimedQuestionsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
     const [questions, setQuestions] = useState(null)
     const [selectedAnswer, setSelectedAnswer] = useState('')
@@ -12,6 +12,7 @@ const QuestionsPage = () => {
     const [correctCount, setCorrectCount] = useState(0)
     const [incorrectCount, setIncorrectCount] = useState(0)
     const [elapsedTime, setElapsedTime] = useState(0);
+    const [seconds, setSeconds] = useState(15);
     const [questionArr, setQuestionArr] = useState([]);
     const [userInputArr, setUserInputArr] = useState([]);
     const [correctAnswerArr, setCorrectAnswerArr] = useState([]);
@@ -38,10 +39,16 @@ const QuestionsPage = () => {
                 setQuestions(data)
                 // console.log(data)
 
-                //set timer
-                let timer = setInterval(() => {
+                //set stopwatch
+                let stopwatch = setInterval(() => {
                     setElapsedTime(prevTime => prevTime + 1)
                 }, 1000);
+
+                //set timer
+                let timer = setInterval(() => {
+                    setSeconds(prev => prev - 1)
+                }, 1000);
+                return () => clearInterval(stopwatch);
 
             } else {
                 const error = await response.json()
@@ -51,14 +58,40 @@ const QuestionsPage = () => {
         getQuestions()
     }, [])
 
-    {/*handles answer button click re-render */}
+    {/*handles answer button click re-render*/}
     useEffect(() => {
-
+        
     }, [selectedAnswer])
+
+    {/*Checks is user has ran out of time*/}
+    useEffect(() => {
+        if(seconds === 0 && selectedAnswer === ''){
+            //handle question arr, user input arr, correct answer arr
+            const updatedQuestionArr = [...questionArr, questions[index].question]
+            setQuestionArr(updatedQuestionArr)
+            const updatedUserInputArr = [...userInputArr, 'Ran out of time!']
+            setUserInputArr(updatedUserInputArr)
+            const updatedCorrectAnswerArr = [...correctAnswerArr, questions[index].correct_answer]
+            setCorrectAnswerArr(updatedCorrectAnswerArr)
+
+            //increment incorrect count
+            setIncorrectCount(prev => prev + 1)
+
+            //increment index
+            setTimeout(() => {
+                setIndex(prev => prev + 1)
+                setSelectedAnswer('')
+
+                //reset timer
+                setSeconds(15)
+            }, 1500)
+        }   
+    }, [seconds])
 
     {/*hits api and redirects when all state variables are updated correctly */}
     useEffect(() => {
-        if(questions && index + 1 === questions.length && localStorage.getItem('userInfo') && correctCount + incorrectCount === questions.length && questionArr.length === questions.length && userInputArr.length === questions.length && correctAnswerArr.length === questions.length){
+        if(questions && index + 1 === questions.length && localStorage.getItem('userInfo') && correctCount + incorrectCount === questions.length && questionArr.length === questions.length && userInputArr.length === questions.length && correctAnswerArr.length === questions.length) {
+            //handle last question (hit the api and get game id, redirect to results for that game)
             const handleLastClick = async () => {
                 //handle last question click (hit the api and get game id, redirect to results for that game)
                 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
@@ -77,7 +110,7 @@ const QuestionsPage = () => {
                         user_input_arr: userInputArr,
                         correct_answer_arr: correctAnswerArr,
                         category: Number(searchParams.get('category')) === 0 ? 'Any' : getCategory(Number(searchParams.get('category'))),
-                        gamemode: 'Normal'
+                        gamemode: 'Timed'
                     })
                 })
                 if(response.ok){
@@ -104,7 +137,7 @@ const QuestionsPage = () => {
     }, [index, correctCount, incorrectCount, questionArr, userInputArr, correctAnswerArr])
 
     const handleAnswerClick = async (answer) => {
-        
+
         //build object to send to backend with current question, correct answer, user answer
         const updatedQuestionArr = [...questionArr, questions[index].question]
         setQuestionArr(updatedQuestionArr)
@@ -126,9 +159,11 @@ const QuestionsPage = () => {
             setTimeout(() => {
                 setIndex(prev => prev + 1)
                 setSelectedAnswer('')
+
+                //reset timer
+                setSeconds(15)
             }, 1500)
         }
-        
     }
 
     const buttonBg = (userAnswer) => {
@@ -146,10 +181,11 @@ const QuestionsPage = () => {
     
     return (
         <div>
-            {questions && 
+            {questions &&
                 <div>
                     <div>{questions[index].category}</div>
-                    <div>timer: {formatTime(elapsedTime)}</div>
+                    <div>Total Time Taken: {formatTime(elapsedTime)}</div>
+                    <div className='text-lg'>Timer: {formatTime(seconds)}</div>
                     <div>Question: {index + 1}</div>
                     <div>{questions[index].question}</div>
                     <div>Difficulty: {questions[index].difficulty}</div>
@@ -168,4 +204,4 @@ const QuestionsPage = () => {
     )
 }
 
-export default QuestionsPage
+export default TimedQuestionsPage

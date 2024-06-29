@@ -30,6 +30,7 @@ const ResultsPage = () => {
                 })
                 if(response.ok){
                     const data = await response.json()
+                    // console.log(data)
                     setUserGameData(data)
                 }
             }
@@ -57,10 +58,15 @@ const ResultsPage = () => {
                                         {userGameData.correct_answer_arr[index] === userGameData.user_input_arr[index] ? (
                                             <div className='bg-green-500'>Correct: {userGameData.correct_answer_arr[index]}</div>
                                         ) : (
-                                            <div>
-                                                <div className='bg-red-500'>Your answer: {userGameData.user_input_arr[index]}</div>
-                                                <div className='bg-green-500'>Correct answer: {userGameData.correct_answer_arr[index]}</div>
-                                            </div>
+                                            userGameData.user_input_arr[index] === 'Ran out of time!' ? (
+                                                <div className='bg-red-500'>No answer: Ran out of time!</div>                                            
+                                            ) : (
+                                                <div>
+                                                    <div className='bg-red-500'>Your answer: {userGameData.user_input_arr[index]}</div>
+                                                    <div className='bg-green-500'>Correct answer: {userGameData.correct_answer_arr[index]}</div>
+                                                </div>
+                                            )
+                                            
                                         )}
                                     </div>
                                 )
@@ -89,10 +95,14 @@ const ResultsPage = () => {
                                         {gameData.correct_answer_arr[index] === gameData.user_input_arr[index] ? (
                                             <div className='bg-green-500'>Correct: {gameData.correct_answer_arr[index]}</div>
                                         ) : (
-                                            <div>
-                                                <div className='bg-red-500'>Your answer: {gameData.user_input_arr[index]}</div>
-                                                <div className='bg-green-500'>Correct answer: {gameData.correct_answer_arr[index]}</div>
-                                            </div>
+                                            gameData.user_input_arr[index] === 'Ran out of time!' ? (
+                                                <div className='bg-red-500'>No answer: Ran out of time!</div> 
+                                            ) : (
+                                                <div>
+                                                    <div className='bg-red-500'>Your answer: {gameData.user_input_arr[index]}</div>
+                                                    <div className='bg-green-500'>Correct answer: {gameData.correct_answer_arr[index]}</div>
+                                                </div>
+                                            )
                                         )}
                                     </div>
                                 )

@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userData, setUserData] = useState({});
     const [gameData, setGameData] = useState(null);
+    const [awake, setAwake] = useState(false);
 
     //Check local storage for userInfo and set isLoggedIn
     useEffect(() => {
@@ -15,6 +16,21 @@ export const AuthProvider = ({ children }) => {
             setUserData(JSON.parse(storedUserData));
             setIsLoggedIn(true);
         }
+
+        //awake the server
+        const getAwakeStatus = async () => {
+            const apiBaseUrl = import.meta.env.VITE_API_BASE_URL
+            const response = await fetch(`${apiBaseUrl}/users/awake`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            if(response.ok){
+                const data = await response.json()
+                setAwake(true)
+            }
+        }
+        getAwakeStatus()
     }, []);
 
     const handleGameData = (data) => {
@@ -47,7 +63,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, userData, gameData, loginUser, logoutUser, registerUser, deleteProfile, handleGameData }}>
+        <AuthContext.Provider value={{ isLoggedIn, userData, gameData, awake, loginUser, logoutUser, registerUser, deleteProfile, handleGameData }}>
             {children}
         </AuthContext.Provider>
     );
