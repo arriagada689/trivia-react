@@ -53,7 +53,7 @@ const UpdateProfile = () => {
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username" 
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-2 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                         <div className='text-xs'>Username must be 150 characters or fewer and contain only letters, digits and @/./+/-/_.</div>
                     </div>
@@ -66,7 +66,7 @@ const UpdateProfile = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-2 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                     </div>
                     <div className='text-xs'>Password must be at least 4 characters long.</div>
@@ -79,10 +79,10 @@ const UpdateProfile = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Confirm your password"
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-2 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                     </div>
-                    <button type="submit" className='bg-blue-700 w-fit text-white py-2 px-3 rounded mb-4'>Update</button>
+                    <button type="submit" className='bg-secondary hover:bg-secondary-light w-fit text-white py-2 px-3 rounded mb-4'>Update</button>
                 </Form>
             </div>
         </div>

@@ -62,8 +62,8 @@ const RegisterPage = () => {
                 />
                 </div>
             }
-            {!loading && <div className='flex flex-col space-y-3 p-2 md:py-10 md:px-10 border border-gray-500 rounded mt-5 md:mt-10'>
-                <div className='text-2xl font-bold text-center'>Sign Up</div>
+            {!loading && <div className='flex flex-col space-y-3 p-2 md:py-10 md:px-10 border border-gray-500 dark:border-white rounded mt-5 md:mt-10'>
+                <div className='text-2xl font-bold text-center'>Register</div>
 
                 {errorMessage && <div className='border-2 border-red-800 bg-red-300 p-1 px-2 w-fit text-red-600'>{errorMessage}</div>}
         
@@ -77,7 +77,7 @@ const RegisterPage = () => {
                             onChange={(e) => setUsername(e.target.value)}
                             placeholder="Enter your username" 
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-1 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                         <div className='text-xs'>Username must be 150 characters or fewer and contain only letters, digits and @/./+/-/_.</div>
                     </div>
@@ -90,7 +90,7 @@ const RegisterPage = () => {
                             onChange={(e) => setPassword(e.target.value)}
                             placeholder="Enter your password"
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-1 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                         <div className='text-xs'>Password must be at least 4 characters long.</div>
                     </div>
@@ -104,10 +104,10 @@ const RegisterPage = () => {
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             placeholder="Confirm your password"
                             required
-                            className='border border-gray-400 p-1 w-64 md:w-[450px]'
+                            className='border border-gray-400 dark:border-white p-1 w-64 md:w-[450px] dark:bg-primary dark:text-white'
                         />
                     </div>
-                    <button type="submit" className='bg-blue-700 w-fit text-white py-2 px-3 rounded mb-4'>Sign Up</button>
+                    <button type="submit" className='bg-secondary hover:bg-secondary-light w-fit text-white py-2 px-3 rounded mb-4'>Sign Up</button>
             
                     <div>Already have an account? <Link to='/login' className='text-blue-500 underline'>Log in</Link> </div>
                 </Form>

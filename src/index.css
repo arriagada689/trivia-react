@@ -5,3 +5,7 @@
 body {
     @apply bg-white text-black dark:bg-primary dark:text-light;
 }
+
+.loading-height {
+    height: calc(100vh - 100px);
+}

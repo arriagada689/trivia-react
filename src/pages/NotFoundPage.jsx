@@ -14,7 +14,7 @@ const NotFoundPage = () => {
             <CgDanger className='mx-auto text-yellow-400' size={150}/>
             <div className='text-5xl font-bold'>404 Not Found</div>
             <div className='text-xl'>This page does not exist</div>
-            <button onClick={goBack} className='bg-blue-700 w-fit text-white py-2 px-3 rounded'>Go Back</button>
+            <button onClick={goBack} className='bg-secondary hover:bg-secondary-light w-fit text-white py-2 px-3 rounded'>Go Back</button>
         </div>
     )
 }

@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import formatTime from '../utils/formatTime';
 import { AuthContext } from '../contexts/AuthContext.jsx';
 import getCategory from '../utils/getCategory.js';
+import { FaStopwatch } from "react-icons/fa";
 
 const QuestionsPage = () => {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -126,7 +127,7 @@ const QuestionsPage = () => {
             setTimeout(() => {
                 setIndex(prev => prev + 1)
                 setSelectedAnswer('')
-            }, 1500)
+            }, 1400)
         }
         
     }
@@ -140,24 +141,25 @@ const QuestionsPage = () => {
         } else if(selectedAnswer.length > 0 && userAnswer === questions[index].correct_answer && selectedAnswer !== questions[index].correct_answer){
             return 'bg-green-400'
         } else {
-            return null
+            return 'bg-lighterPrimary'
         }
     }
     
     return (
-        <div>
+        <div className='flex flex-col justify-center px-2 md:px-0'>
             {questions && 
-                <div>
-                    <div>{questions[index].category}</div>
-                    <div>timer: {formatTime(elapsedTime)}</div>
-                    <div>Question: {index + 1}</div>
-                    <div>{questions[index].question}</div>
-                    <div>Difficulty: {questions[index].difficulty}</div>
-                    <div className='flex space-x-5'>
+                <div className='flex flex-col justify-center items-center space-y-4 mx-auto w-full md:w-2/3'>
+                    <div className='mt-3 text-xl font-semibold'>Category: <span className='text-secondary'>{questions[index].category}</span></div>
+                    <div className='flex items-center text-lg space-x-3'><FaStopwatch size={30}/> <span>{formatTime(elapsedTime)}</span></div>
+                    <div className='text-xl'>Question: <span className='text-secondary'>{index + 1}</span></div>
+                    <div className='text-2xl text-center w-full'>{questions[index].question}</div>
+                    <div className='text-lg'>Difficulty: <span className={`${questions[index].difficulty === 'easy' && 'text-green-500'} ${questions[index].difficulty === 'medium' && 'text-orange-400'} ${questions[index].difficulty === 'hard' && 'text-red-500'} `}>{questions[index].difficulty}</span></div>
+                    <div className='flex flex-col space-y-3 w-full'>
                         {questions[index].options.map((option, i) => {
                             return <button 
                                 onClick={() => handleAnswerClick(option)} 
-                                key={i} className={`${buttonBg(option)}`}>
+                                key={i} 
+                                className={` text-white w-full py-1 text-center text-lg ${buttonBg(option)}`}>
                                 {option}
                                 </button>
                         })}
