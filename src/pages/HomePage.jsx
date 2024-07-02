@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { triviaCategories } from '../utils/categories'
 import { amountArr } from '../utils/amountArr'
-import { useNavigate, useSearchParams, Link } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import AchievementTable from '../components/AchievementTable'
 import { FaArrowRight } from "react-icons/fa";
 
