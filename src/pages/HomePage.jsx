@@ -91,7 +91,7 @@ const HomePage = () => {
     }
 
     return (
-      <div className='flex flex-col justify-center items-center space-y-4'>
+      <div className='flex flex-col justify-center items-center space-y-8 pb-32'>
 
         {/*Login/Register prompt when not logged in */}
         {!localStorage.getItem('userInfo') && 

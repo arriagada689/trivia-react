@@ -14,7 +14,9 @@ export default {
           dark: '#8A3900'
         },
         lighterPrimary: '#686D76',
-        light: '#EEEEEE'
+        light: '#EEEEEE',
+        leaderboard: '#F9F9F9',
+        leaderboardSelected: '#FFD700'
       },
       screens: {
         'sm': '640px',

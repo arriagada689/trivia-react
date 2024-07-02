@@ -98,6 +98,7 @@ const QuestionsPage = () => {
             obj['question_arr'] = questionArr
             obj['user_input_arr'] = userInputArr
             obj['correct_answer_arr'] = correctAnswerArr
+            obj['gamemode'] = 'Normal'
 
             handleGameData(obj)
             navigate('/results')

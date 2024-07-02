@@ -22,16 +22,20 @@ const Leaderboard = () => {
     }, [metric])
 
     return (
-        <div>
+        <div className='flex flex-col justify-center items-center'>
             {userData &&
-                <>
-                    <div className="flex space-x-3">
-                        <button className={`${metric === '1' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('1')}>Total Games</button>
-                        <button className={`${metric === '2' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('2')}>Total Correct</button>
-                        <button className={`${metric === '3' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('3')}>Total Wrong</button>
-                        <button className={`${metric === '4' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('4')}>Overall Average</button>
-                        <button className={`${metric === '5' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('5')}>Current Perfect Score Streak</button>
-                        <button className={`${metric === '6' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light`} onClick={() => setMetric('6')}>Longest Perfect Score Streak</button>
+                <div className='md:w-4/5 bg-leaderboard mt-4 border-2 border-gray-400 rounded-lg'>
+
+                    <div className='text-center text-3xl font-semibold py-3 border-b-2 border-gray-400'>Leaderboard</div>
+
+                    <div className="flex items-center space-x-3 p-2 border-b-2 border-gray-400 flex-wrap gap-y-2">
+                        <div>Sorting metric:</div>
+                        <button className={`${metric === '1' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('1')}>Total Games</button>
+                        <button className={`${metric === '2' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('2')}>Total Correct</button>
+                        <button className={`${metric === '3' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('3')}>Total Wrong</button>
+                        <button className={`${metric === '4' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('4')}>Overall Average</button>
+                        <button className={`${metric === '5' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('5')}>Current Perfect Score Streak</button>
+                        <button className={`${metric === '6' ? 'bg-secondary-dark' : 'bg-secondary'} hover:bg-secondary-light p-1 rounded-lg text-white`} onClick={() => setMetric('6')}>Longest Perfect Score Streak</button>
                     </div>
 
                     <div className='flex flex-col'>
@@ -50,7 +54,8 @@ const Leaderboard = () => {
                             )
                         })}
                     </div>
-                </>
+                    
+                </div>
             }
         </div>
     )

@@ -3,7 +3,7 @@ import React from 'react'
 const AchievementTable = () => {
     return (
         <div className='m-4 md:m-0 md:w-3/5 space-y-2'>
-            <div className='text-center text-2xl font-medium'>Trivia Achievments</div>
+            <div className='text-center text-2xl font-medium'>Trivia Achievements</div>
             <div>Track your achievements and become a trivia master! To keep track of your achievements, please login or create an account.</div>
             <table className='w-full border border-gray-400 '>
                 <thead className='bg-gray-300 dark:bg-lighterPrimary border-b border-b-gray-400'>
